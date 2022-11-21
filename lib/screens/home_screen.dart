@@ -1,8 +1,9 @@
+import 'package:card_matching_game/screens/board_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-  
+
   static const routeName = '/home';
 
   @override
@@ -10,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int? _selectedSize;
+  int _selectedSize = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +35,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Text('Deck size'),
                   DropdownButton(
                     value: _selectedSize,
-                    items: List.generate(8, (index) => DropdownMenuItem(value: index + 3, child: Text('${index + 3}')))
-                        .toList(),
+                    items: List.generate(
+                      8,
+                      (index) => DropdownMenuItem(value: index + 3, child: Text('${(index + 3) * 2}')),
+                    ).toList(),
                     onChanged: (value) {
-                      setState(() {
-                        _selectedSize = value;
-                      });
+                      if (value != null) {
+                        setState(() {
+                          _selectedSize = value;
+                        });
+                      }
                     },
                   ),
-                  ElevatedButton(onPressed: () {}, child: const Text('Start game')),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, BoardScreen.routeName, arguments: _selectedSize);
+                    },
+                    child: const Text('Start game'),
+                  ),
                 ],
               ),
             ),

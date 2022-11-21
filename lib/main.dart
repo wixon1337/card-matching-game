@@ -1,3 +1,4 @@
+import 'package:card_matching_game/screens/board_screen.dart';
 import 'package:card_matching_game/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       routes: {
         HomeScreen.routeName:(context) => const HomeScreen(),
+        BoardScreen.routeName:(context) => const BoardScreen(),
       },
     );
   }
