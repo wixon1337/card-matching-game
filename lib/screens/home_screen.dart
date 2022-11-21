@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedSize = 5;
+  int _selectedSize = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     value: _selectedSize,
                     items: List.generate(
                       8,
-                      (index) => DropdownMenuItem(value: index + 3, child: Text('${(index + 3) * 2}')),
+                      (index) => DropdownMenuItem(value: (index + 3) * 2, child: Text('${(index + 3) * 2}')),
                     ).toList(),
                     onChanged: (value) {
                       if (value != null) {

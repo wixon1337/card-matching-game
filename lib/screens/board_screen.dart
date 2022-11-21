@@ -1,3 +1,4 @@
+import 'package:card_matching_game/components/board.dart';
 import 'package:card_matching_game/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -11,11 +12,14 @@ class BoardScreen extends StatefulWidget {
 }
 
 class _BoardScreenState extends State<BoardScreen> {
+
   @override
   Widget build(BuildContext context) {
+    var numberOfCards = ModalRoute.of(context)?.settings.arguments as int?;
+
     return Scaffold(
       appBar: const MyAppBar(),
-      body: Column(),
+      body: numberOfCards != null ? Board(numberOfCards: numberOfCards) : Container(),
     );
   }
 }
