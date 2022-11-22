@@ -144,6 +144,20 @@ class _BoardState extends State<Board> {
   }
 
   void gameOverCheck() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Row(
+        children: const [
+          Icon(Icons.emoji_events, color: Colors.amber),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.0),
+            child: Text('Congratulation! You did it!'),
+          ),
+          Icon(Icons.emoji_events, color: Colors.amber),
+        ],
+      )),
+    );
     if (_cards.every((card) => card.isRevealed)) {
       if (_counter < SharedPrefs.getBestScore()) SharedPrefs.saveBestScore(_counter);
       _restart();
