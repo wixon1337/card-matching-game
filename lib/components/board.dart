@@ -46,8 +46,13 @@ class _BoardState extends State<Board> {
                   child: Column(
                     children: [
                       const Text('Best:'),
-                      Text(SharedPrefs.getBestScore().toString(),
-                          style: TextStyle(fontSize: Theme.of(context).textTheme.headline5!.fontSize)),
+                      Text(
+                        SharedPrefs.getBestScore().toString(),
+                        style: TextStyle(
+                          fontSize: Theme.of(context).textTheme.headline5!.fontSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -55,11 +60,14 @@ class _BoardState extends State<Board> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SizedBox(
+                      Container(
+                        decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                         width: 100.0,
-                        child: ElevatedButton(
+                        child: MaterialButton(
+                          elevation: 0,
+                          color: Colors.white,
                           onPressed: _restart,
-                          child: const Text('Restart'),
+                          child: const Text('RESTART', style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
                       ),
                     ],

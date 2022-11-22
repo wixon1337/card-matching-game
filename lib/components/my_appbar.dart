@@ -11,12 +11,13 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MyAppBarState extends State<MyAppBar> {
-  int? _selectedSize;
+  //int? _selectedSize;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      actions: [
+      backgroundColor: Colors.black,
+      /* actions: [
         DropdownButton(
           value: _selectedSize,
           items: List.generate(8, (index) => DropdownMenuItem(value: index + 3, child: Text('${index + 3}'))).toList(),
@@ -27,7 +28,7 @@ class _MyAppBarState extends State<MyAppBar> {
           },
         ),
         ElevatedButton(onPressed: () {}, child: const Text('Start game')),
-      ],
+      ], */
     );
   }
 }
