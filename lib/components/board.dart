@@ -1,4 +1,5 @@
 import 'package:card_matching_game/models/my_card.dart';
+import 'package:card_matching_game/utils/shared_prefs.dart';
 import 'package:flutter/material.dart';
 
 class Board extends StatefulWidget {
@@ -45,7 +46,8 @@ class _BoardState extends State<Board> {
                   child: Column(
                     children: [
                       const Text('Best:'),
-                      Text('9', style: TextStyle(fontSize: Theme.of(context).textTheme.headline5!.fontSize)),
+                      Text(SharedPrefs.getBestScore().toString(),
+                          style: TextStyle(fontSize: Theme.of(context).textTheme.headline5!.fontSize)),
                     ],
                   ),
                 ),
@@ -56,11 +58,7 @@ class _BoardState extends State<Board> {
                       SizedBox(
                         width: 100.0,
                         child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _init();
-                            });
-                          },
+                          onPressed: _restart,
                           child: const Text('Restart'),
                         ),
                       ),
@@ -91,11 +89,6 @@ class _BoardState extends State<Board> {
   }
 
   void _init() {
-    _cards.clear();
-    revealedCard;
-    _tapLock = false;
-    _counter = 0;
-
     var numberOfUniqueCards = widget.numberOfCards ~/ 2;
     var cardIndexes = List.generate(numberOfUniqueCards, (index) => index).toList();
     for (var index in cardIndexes) {
@@ -103,6 +96,17 @@ class _BoardState extends State<Board> {
       _cards.add(MyCard(index));
     }
     _cards.shuffle();
+  }
+
+  void _restart() {
+    setState(() {
+      _cards.clear();
+      revealedCard = null;
+      _tapLock = false;
+      _counter = 0;
+
+      _init();
+    });
   }
 
   void _cardOnTap(MyCard card) {
@@ -118,20 +122,31 @@ class _BoardState extends State<Board> {
           card.isRevealed = true;
           revealedCard = null;
         });
+
+        gameOverCheck();
       } else {
         setState(() {
           card.isRevealed = true;
           _tapLock = true;
         });
         Future.delayed(const Duration(seconds: 1), () {
-          setState(() {
-            card.isRevealed = false;
-            revealedCard!.isRevealed = false;
-            revealedCard = null;
-            _tapLock = false;
-          });
+          if (revealedCard != null) {
+            setState(() {
+              card.isRevealed = false;
+              revealedCard!.isRevealed = false;
+              revealedCard = null;
+              _tapLock = false;
+            });
+          }
         });
       }
+    }
+  }
+
+  void gameOverCheck() {
+    if (_cards.every((card) => card.isRevealed)) {
+      if (_counter < SharedPrefs.getBestScore()) SharedPrefs.saveBestScore(_counter);
+      _restart();
     }
   }
 }
