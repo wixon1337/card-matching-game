@@ -28,23 +28,47 @@ class _BoardState extends State<Board> {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Text('Current tries: '),
-                  Text('$_counter'),
-                ],
-              ),
-              Column(
-                children: const [
-                  Text('Best:'),
-                  Text('9'),
-                ],
-              ),
-              ElevatedButton(onPressed: () {}, child: const Text('Restart')),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      const Text('Current tries: '),
+                      Text('$_counter'),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      const Text('Best:'),
+                      Text('9', style: TextStyle(fontSize: Theme.of(context).textTheme.headline5!.fontSize)),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: 100.0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _init();
+                            });
+                          },
+                          child: const Text('Restart'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: GridView.extent(
@@ -67,6 +91,11 @@ class _BoardState extends State<Board> {
   }
 
   void _init() {
+    _cards.clear();
+    revealedCard;
+    _tapLock = false;
+    _counter = 0;
+
     var numberOfUniqueCards = widget.numberOfCards ~/ 2;
     var cardIndexes = List.generate(numberOfUniqueCards, (index) => index).toList();
     for (var index in cardIndexes) {
